@@ -21,6 +21,8 @@ defmodule ImagoWeb do
     quote do
       use Phoenix.Controller, namespace: ImagoWeb
 
+      require Logger
+
       import Plug.Conn
       import ImagoWeb.Gettext
       alias ImagoWeb.Router.Helpers, as: Routes

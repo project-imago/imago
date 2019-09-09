@@ -13,10 +13,23 @@ defmodule ImagoWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ImagoWeb do
-    pipe_through :browser
+  scope "/", ImagoWeb.MatrixAS.V1 do
+    pipe_through :api
 
-    get "/", PageController, :index
+    # scope "/v1", V1 do
+      put "/transactions/:txn_id", TransactionController, :create
+
+      get "/users/:user_id", UserController, :show
+      get "/rooms/:room_alias", RoomController, :show
+
+      # scope "/thirdparty", ThirdParty do
+        get "/thirdparty/protocol/:protocol", ThirdPartyController, :show
+        get "/thirdparty/user/:protocol", ThirdPartyController, :show
+        get "/thirdparty/location/:protocol", ThirdPartyController, :show
+        get "/thirdparty/location", ThirdPartyController, :show
+        get "/thirdparty/user", ThirdPartyController, :show
+      # end
+    # end
   end
 
   # Other scopes may use custom stacks.
