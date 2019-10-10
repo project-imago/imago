@@ -1,6 +1,6 @@
 # Imago elixir ?
 FROM elixir:1.9.1
-LABEL Nicolas Bettenburg <nicbet@gmail.com>
+# LABEL Nicolas Bettenburg <nicbet@gmail.com>
 
 ENV APP_HOME /app
 RUN mkdir -p $APP_HOME
@@ -16,7 +16,7 @@ RUN mix local.hex --force \
  && apt-get install -y inotify-tools \
  && mix local.rebar --force 
 
-COPY ./mix.exs /app
+COPY ["./mix.exs", "./mix.lock", "/app/"]
 
 RUN mix deps.get
 
