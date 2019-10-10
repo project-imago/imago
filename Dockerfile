@@ -22,8 +22,8 @@ RUN mix deps.get
 
 COPY . /app
 
-RUN mix ecto.setup \
- && mix ecto.create imago_eventstore_dev
+# RUN mix ecto.setup \
+#  && mix ecto.create imago_eventstore_dev
 
 VOLUME ["/app"]
 
