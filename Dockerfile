@@ -1,4 +1,4 @@
-# Imago elixir 
+# Imago elixir ?
 FROM elixir:1.9.1
 LABEL Nicolas Bettenburg <nicbet@gmail.com>
 
@@ -16,19 +16,19 @@ RUN mix local.hex --force \
  && apt-get install -y inotify-tools \
  && mix local.rebar --force 
 
+COPY ./mix.exs /app
 
-RUN mix deps.get \
- && mix ecto.setup \
+RUN mix deps.get
+
+COPY . /app
+
+RUN mix ecto.setup \
  && mix ecto.create imago_eventstore_dev
 
-# Untested
-# WORKDIR $APP_HOME/assets
-# RUN npm install
-# WORKDIR $APP_HOME
+VOLUME ["/app"]
 
 EXPOSE 4000
 
 CMD ["mix", "phx.server"]
-
 
 
