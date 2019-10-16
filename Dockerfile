@@ -23,6 +23,10 @@ ADD . .
 
 RUN mix compile
 
+VOLUME ["/opt/app/lib"]
+VOLUME ["/opt/app/assets"]
+VOLUME ["/opt/app/priv"]
+
 USER default
 
 CMD ["mix", "phx.server"]

@@ -28,10 +28,11 @@ config :phoenix, :json_library, Jason
 config :commanded,
   event_store_adapter: Commanded.EventStore.Adapters.EventStore
 
+gremlin_uri = URI.parse(System.get_env("GREMLIN_URL") || "")
 config :gremlex,
-  host: "127.0.0.1",
-  port: 8182,
-  path: "/gremlin",
+  host: gremlin_uri.host || "127.0.0.1",
+  port: gremlin_uri.port || 8182,
+  path: gremlin_uri.path || "/gremlin",
   pool_size: 10,
   secure: false,
   ping_delay: 60_000
