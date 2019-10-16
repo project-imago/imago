@@ -3,9 +3,9 @@ use Mix.Config
 # Configure your database
 config :imago, Imago.Repo,
   username: "postgres",
-  password: "changeme",
+  password: "postgres",
   database: "imago_dev",
-  hostname: "imago_db",
+  hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -13,9 +13,9 @@ config :imago, Imago.Repo,
 config :eventstore, EventStore.Storage,
   serializer: Commanded.Serialization.JsonSerializer,
   username: "postgres",
-  password: "changeme",
+  password: "postgres",
   database: "imago_eventstore_dev",
-  hostname: "imago_db",
+  hostname: "localhost",
   pool_size: 10
 
 # For development, we disable any cache and enable

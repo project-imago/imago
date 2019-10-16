@@ -1,5 +1,4 @@
-# TODO: handle releases and compile in Docker image
-# https://dev.to/ilsanto/deploy-a-phoenix-app-with-docker-stack-1j9c
+# Imago elixir ?
 FROM elixir:1.9.1
 # LABEL Nicolas Bettenburg <nicbet@gmail.com>
 
@@ -17,15 +16,16 @@ RUN mix local.hex --force \
  && apt-get install -y inotify-tools \
  && mix local.rebar --force 
 
-COPY ["./mix.exs", "/app/"]
-# COPY ["./mix.lock", "/app/"]
+COPY ["./mix.exs", "./mix.lock", "/app/"]
 
 RUN mix deps.get
 
 COPY . /app
 
+# RUN mix ecto.setup \
+#  && mix ecto.create imago_eventstore_dev
+
 VOLUME ["/app"]
-# VOLUME ["/deps"]
 
 EXPOSE 4000
 
