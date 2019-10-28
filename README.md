@@ -1,20 +1,23 @@
 # Imago
 
-To start your Phoenix server:
+Imago is an experimental social network.
+It is a work in progress.
+
+## Run a development environment
+
+### Using Docker
+
+Follow the instructions in the [`imago-deploy` repository](https://gitlab.com/imago-project/imago_deploy)
+
+### Without using Docker
 
   * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
+  * Create and migrate your database with `mix do event_store.create, event_store.init, ecto.setup`
   * Install Node.js dependencies with `cd assets && npm install`
   * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
 ## Learn more
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+  * Documentation:
