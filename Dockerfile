@@ -1,19 +1,18 @@
-FROM bitwalker/alpine-elixir-phoenix:latest
+FROM bitwalker/alpine-elixir-phoenix:1.9.4
 
-# Set exposed ports
-EXPOSE 4000
-ENV MIX_ENV=dev
+ENV HEX_HTTP_CONCURRENCY=1
+ENV HEX_HTTP_TIMEOUT=240
 
 # Cache elixir deps
-ADD mix.exs mix.lock ./
+COPY ./mix.exs ./mix.lock /opt/app/
 RUN mix do deps.get, deps.compile
 
 # Same with npm deps
-ADD assets/package.json assets/
+COPY ./assets/package.json /opt/app/assets/
 RUN cd assets && \
     npm install
 
-ADD . .
+# ADD . .
 
 # Run frontend build, compile, and digest assets
 # RUN cd assets/ && \
@@ -23,13 +22,17 @@ ADD . .
 
 RUN mix compile
 
-VOLUME ["/opt/app/lib"]
-VOLUME ["/opt/app/assets"]
-VOLUME ["/opt/app/priv"]
+# VOLUME ["/opt/app/lib"]
+# VOLUME ["/opt/app/assets"]
+# VOLUME ["/opt/app/priv"]
 
 ## Add the wait script to the image
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.6.0/wait /wait
 RUN chmod +x /wait
+
+# Set exposed ports
+EXPOSE 4000
+ENV MIX_ENV=dev
 
 USER default
 
