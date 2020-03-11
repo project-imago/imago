@@ -33,7 +33,6 @@ RUN chmod +x /wait
 
 USER default
 
-CMD mix ecto.setup
-CMD mix do event_store.create, event_store.init (avant)
-
+CMD mix ecto.setup; \
+CMD mix do event_store.create, event_store.init; \
 CMD /wait && mix phx.server
