@@ -1,5 +1,7 @@
 FROM bitwalker/alpine-elixir-phoenix:1.9.4
 
+USER default
+
 ENV HEX_HTTP_CONCURRENCY=1
 ENV HEX_HTTP_TIMEOUT=240
 ENV MIX_ENV=dev
@@ -23,9 +25,6 @@ RUN cd assets && \
 
 COPY ./lib /opt/app/lib/
 COPY ./config /opt/app/config/
-
-USER default
-
 RUN mix compile
 
 # VOLUME ["/opt/app/lib"]
