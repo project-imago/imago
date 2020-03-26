@@ -23,6 +23,9 @@ RUN cd assets && \
 
 COPY ./lib /opt/app/lib/
 COPY ./config /opt/app/config/
+
+USER default
+
 RUN mix compile
 
 # VOLUME ["/opt/app/lib"]
@@ -35,7 +38,5 @@ RUN chmod +x /wait
 
 # Set exposed ports
 EXPOSE 4000
-
-USER default
 
 CMD /wait && mix phx.server
