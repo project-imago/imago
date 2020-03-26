@@ -21,7 +21,7 @@ RUN cd assets && \
 #     cd - && \
 #     mix do compile, phx.digest
 
-COPY ./lib /opt/app/
+COPY ./lib /opt/app/lib/
 RUN mix compile
 
 # VOLUME ["/opt/app/lib"]
