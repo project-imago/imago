@@ -25,8 +25,13 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :commanded,
-  event_store_adapter: Commanded.EventStore.Adapters.EventStore
+config :imago, Imago.Commanded,
+  event_store: [
+    adapter: Commanded.EventStore.Adapters.EventStore,
+    event_store: Imago.EventStore
+  ],
+  pub_sub: :local,
+  registry: :local
 
 gremlin_uri = URI.parse(System.get_env("GREMLIN_URL") || "")
 config :gremlex,

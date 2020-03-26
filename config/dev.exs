@@ -10,7 +10,7 @@ config :imago, Imago.Repo,
   pool_size: 10
 
 # Configure the event store database
-config :eventstore, EventStore.Storage,
+config :imago, Imago.EventStore,
   serializer: Commanded.Serialization.JsonSerializer,
   username: System.get_env("POSTGRES_USER") || "postgres",
   password: System.get_env("POSTGRES_PASSWORD") || "postgres",

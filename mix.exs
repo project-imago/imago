@@ -43,8 +43,8 @@ defmodule Imago.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:commanded, "~> 0.19.1"},
-      {:commanded_eventstore_adapter, "~> 0.6.0"},
+      {:commanded, "~> 1.0.0"},
+      {:commanded_eventstore_adapter, "~> 1.0.0"},
       {:gremlex, "~> 0.1.1"}
     ]
   end
