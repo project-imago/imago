@@ -1,5 +1,7 @@
 FROM bitwalker/alpine-elixir-phoenix:1.9.4
 
+RUN mix local.hex
+
 USER default
 
 ENV HEX_HTTP_CONCURRENCY=1
