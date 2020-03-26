@@ -2,6 +2,7 @@ FROM bitwalker/alpine-elixir-phoenix:1.9.4
 
 ENV HEX_HTTP_CONCURRENCY=1
 ENV HEX_HTTP_TIMEOUT=240
+ENV MIX_ENV=dev
 
 # Cache elixir deps
 COPY ./mix.exs ./mix.lock /opt/app/
@@ -10,7 +11,7 @@ RUN mix do deps.get, deps.compile
 # Same with npm deps
 COPY ./assets/package.json /opt/app/assets/
 RUN cd assets && \
-    npm install
+    npm install --ignore-optional
 
 # ADD . .
 
@@ -32,7 +33,6 @@ RUN chmod +x /wait
 
 # Set exposed ports
 EXPOSE 4000
-ENV MIX_ENV=dev
 
 USER default
 
