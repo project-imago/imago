@@ -9,7 +9,8 @@ COPY ./mix.exs ./mix.lock /opt/app/
 RUN mix do deps.get, deps.compile
 
 # Same with npm deps
-COPY ./assets/package.json /opt/app/assets/
+COPY ./assets /opt/app/assets/
+# COPY ./assets/package.json /opt/app/assets/
 RUN cd assets && \
     npm install --ignore-optional
 
@@ -23,6 +24,7 @@ RUN cd assets && \
 
 COPY ./lib /opt/app/lib/
 COPY ./config /opt/app/config/
+COPY ./priv /opt/app/priv/
 RUN mix compile
 
 # VOLUME ["/opt/app/lib"]
@@ -37,7 +39,7 @@ RUN chmod +x /wait
 EXPOSE 4000
 
 # temporary fix
-RUN chmod -R 777 /opt/app/_build
+# RUN chmod -R 777 /opt/app/_build
 
 USER default
 
