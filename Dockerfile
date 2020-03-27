@@ -1,7 +1,5 @@
 FROM bitwalker/alpine-elixir-phoenix:1.9.4
 
-RUN mix local.hex
-
 ENV HEX_HTTP_CONCURRENCY=1
 ENV HEX_HTTP_TIMEOUT=240
 ENV MIX_ENV=dev
@@ -39,7 +37,7 @@ RUN chmod +x /wait
 EXPOSE 4000
 
 # temporary fix
-RUN chown default:default /opt/app/_build
+RUN chown -R default:default /opt/app/_build
 
 USER default
 
