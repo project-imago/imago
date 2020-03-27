@@ -37,7 +37,7 @@ RUN chmod +x /wait
 EXPOSE 4000
 
 # temporary fix
-RUN chown -R default /opt/app/_build
+RUN chmod --recursive 777 /opt/app/_build
 
 USER default
 
