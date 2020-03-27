@@ -41,6 +41,7 @@ EXPOSE 4000
 # temporary fix
 # RUN chmod -R 777 /opt/app/_build
 
-USER default
+# temporary fix
+# USER default
 
 CMD /wait && mix phx.server
