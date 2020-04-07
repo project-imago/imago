@@ -41,11 +41,13 @@ defmodule Imago.MixProject do
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
+      {:jason, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
       {:commanded, "~> 1.0.0"},
       {:commanded_eventstore_adapter, "~> 1.0.0"},
-      {:gremlex, "~> 0.1.1"}
+      {:gremlex, "~> 0.1.1"},
+      {:sparql_client, "~> 0.2.2"}
+      # {:pbf_parser, "~> 0.1.2"}
     ]
   end
 
