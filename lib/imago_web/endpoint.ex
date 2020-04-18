@@ -42,5 +42,7 @@ defmodule ImagoWeb.Endpoint do
     key: "_imago_key",
     signing_salt: "tdAJ+Zor"
 
+  plug CORSPlug, origin: "*"
+
   plug ImagoWeb.Router
 end

@@ -13,7 +13,13 @@ defmodule ImagoWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ImagoWeb.MatrixAS.V1 do
+  scope "/", ImagoWeb do
+    pipe_through :api
+
+    get "/obj/search", GroupController, :search
+  end
+
+  scope "/api/v1", ImagoWeb.MatrixAS.V1 do
     pipe_through :api
 
     # scope "/v1", V1 do

@@ -6,6 +6,7 @@ ENV MIX_ENV=dev
 
 # Cache elixir deps
 COPY ./mix.exs ./mix.lock /opt/app/
+COPY ./config /opt/app/config/
 RUN mix do deps.get, deps.compile
 
 # Same with npm deps
@@ -23,7 +24,6 @@ RUN cd assets && \
 #     mix do compile, phx.digest
 
 COPY ./lib /opt/app/lib/
-COPY ./config /opt/app/config/
 COPY ./priv /opt/app/priv/
 RUN mix compile
 

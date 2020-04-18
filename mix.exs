@@ -46,7 +46,8 @@ defmodule Imago.MixProject do
       {:commanded, "~> 1.0.0"},
       {:commanded_eventstore_adapter, "~> 1.0.0"},
       {:gremlex, "~> 0.1.1"},
-      {:sparql_client, "~> 0.2.2"}
+      {:sparql_client, "~> 0.2.2"},
+      {:cors_plug, "~> 2.0"}
       # {:pbf_parser, "~> 0.1.2"}
     ]
   end
