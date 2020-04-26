@@ -47,16 +47,20 @@ ORDER BY ASC(?num) LIMIT 20
                              # "https://query.wikidata.org/sparql",
                              request_method: :get,
                              protocol_version: "1.1",
-                             headers: %{"User-Agent" => "Imago/0.0.1 (https://imago.pm/; contact@imago.pm) ImagoLib/0.0.1"}
+                             headers: %{"User-Agent" => "Imago/0.0.1 Dev (https://imago.pm/; contact@imago.pm) ImagoLib/0.0.1"}
          ) do
       {:ok, %{results: results}} ->
         # Logger.debug(results)
         results =
           results
-          |> Enum.map(fn %{"itemLabel" => label} ->
-            RDF.Literal.lexical(label)
+          |> Enum.map(fn %{"item" => item, "itemLabel" => label, "itemDescription" => description} ->
+            %{
+              item: RDF.IRI.to_string(item),
+              label: RDF.Literal.lexical(label),
+              description: RDF.Literal.lexical(description)
+            }
           end)
-        json(conn, %{results: results})
+        json(conn, %{term: term, results: results})
       {:error, %{body: body}} ->
         json(conn, %{error: body})
     end
