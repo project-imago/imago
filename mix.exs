@@ -45,8 +45,10 @@ defmodule Imago.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:commanded, "~> 1.0.0"},
       {:commanded_eventstore_adapter, "~> 1.0.0"},
-      {:gremlex, "~> 0.1.1"},
-      {:sparql_client, "~> 0.2.2"},
+      # {:gremlex, "~> 0.1.1"},
+      {:sparql_client,
+        git: "https://gitlab.com/imago-project/sparql_client.git",
+        ref: "8d1b424a5e26613540ed5e17d7d1c71c4c85749d"},
       {:cors_plug, "~> 2.0"}
       # {:pbf_parser, "~> 0.1.2"}
     ]
