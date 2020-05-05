@@ -48,7 +48,8 @@ defmodule Imago.MixProject do
       # {:gremlex, "~> 0.1.1"},
       {:sparql_client,
         git: "https://gitlab.com/imago-project/sparql_client.git",
-        ref: "8d1b424a5e26613540ed5e17d7d1c71c4c85749d"},
+        ref: "2c7114ec78eb56d27b8d9cdcc7cedaa99e3041ea"},
+      # {:sparql_client, "~> 0.2.2", path: "./sparql_client"},
       {:cors_plug, "~> 2.0"}
       # {:pbf_parser, "~> 0.1.2"}
     ]
