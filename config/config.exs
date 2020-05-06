@@ -14,8 +14,8 @@ config :imago,
 config :imago, ImagoWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "TwOatoQ1FTkf8UyQ3dTQnL3CqSg+/kUguyBYX36q5BJlQ4CeZPh6SpXYTmsh9hMr",
-  render_errors: [view: ImagoWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Imago.PubSub, adapter: Phoenix.PubSub.PG2]
+  render_errors: [view: ImagoWeb.ErrorView, accepts: ~w(html json)]
+  # pubsub: Imago.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,
