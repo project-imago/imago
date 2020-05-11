@@ -63,6 +63,8 @@ ORDER BY ASC(?num) LIMIT 20
         json(conn, %{term: term, results: results})
       {:error, %{body: body}} ->
         json(conn, %{error: body})
+      {:error, error} ->
+        json(conn, %{error: error})
     end
   end
 end

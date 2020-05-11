@@ -47,13 +47,24 @@ defmodule Imago.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:commanded, "~> 1.0.0"},
       {:commanded_eventstore_adapter, "~> 1.0.0"},
+      {:cors_plug, "~> 2.0"},
+      # {:pbf_parser, "~> 0.1.2"}
       # {:gremlex, "~> 0.1.1"},
+
       {:sparql_client,
         git: "https://gitlab.com/imago-project/sparql_client.git",
         ref: "2c7114ec78eb56d27b8d9cdcc7cedaa99e3041ea"},
       # {:sparql_client, "~> 0.2.2", path: "./sparql_client"},
-      {:cors_plug, "~> 2.0"}
-      # {:pbf_parser, "~> 0.1.2"}
+
+      {:polyjuice_client,
+        git: "https://gitlab.com/imago-project/polyjuice_client.git",
+        ref: "master"},
+      # {:polyjuice_client, "~> 0.2.2", path: "./polyjuice_client"},
+
+      {:matrix_app_service,
+        git: "https://gitlab.com/imago-project/matrix_app_service.ex.git",
+        ref: "master"}
+      # {:matrix_app_service, "~> 0.1.0", path: "./matrix_app_service"}
     ]
   end
 

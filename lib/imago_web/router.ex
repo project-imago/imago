@@ -1,6 +1,8 @@
 defmodule ImagoWeb.Router do
   use ImagoWeb, :router
 
+  require MatrixAppService.Phoenix.Router
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -19,24 +21,7 @@ defmodule ImagoWeb.Router do
     get "/obj/search", GroupController, :search
   end
 
-  scope "/api/v1", ImagoWeb.MatrixAS.V1 do
-    pipe_through :api
-
-    # scope "/v1", V1 do
-      put "/transactions/:txn_id", TransactionController, :create
-
-      get "/users/:user_id", UserController, :show
-      get "/rooms/:room_alias", RoomController, :show
-
-      # scope "/thirdparty", ThirdParty do
-        get "/thirdparty/protocol/:protocol", ThirdPartyController, :show
-        get "/thirdparty/user/:protocol", ThirdPartyController, :show
-        get "/thirdparty/location/:protocol", ThirdPartyController, :show
-        get "/thirdparty/location", ThirdPartyController, :show
-        get "/thirdparty/user", ThirdPartyController, :show
-      # end
-    # end
-  end
+  MatrixAppService.Phoenix.Router.routes()
 
   # Other scopes may use custom stacks.
   # scope "/api", ImagoWeb do
