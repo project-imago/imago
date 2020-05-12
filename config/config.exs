@@ -36,6 +36,8 @@ config :imago, Imago.Commanded,
   pub_sub: :local,
   registry: :local
 
+config :imago, event_stores: [Imago.EventStore]
+
 # gremlin_uri = URI.parse(System.get_env("GREMLIN_URL") || "")
 # config :gremlex,
 #   host: gremlin_uri.host || "127.0.0.1",
