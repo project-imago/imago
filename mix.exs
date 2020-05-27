@@ -58,12 +58,13 @@ defmodule Imago.MixProject do
 
       {:polyjuice_client,
         git: "https://gitlab.com/imago-project/polyjuice_client.git",
-        ref: "master"},
-      # {:polyjuice_client, "~> 0.2.2", path: "./polyjuice_client"},
+        branch: "get_room_state",
+        override: true},
+      # {:polyjuice_client, "~> 0.2.2", path: "./polyjuice_client", override: true},
 
       {:matrix_app_service,
         git: "https://gitlab.com/imago-project/matrix_app_service.ex.git",
-        ref: "master"}
+        branch: "master"}
       # {:matrix_app_service, "~> 0.1.0", path: "./matrix_app_service"}
     ]
   end
