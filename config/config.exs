@@ -26,7 +26,8 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :matrix_app_service,
-  transaction_module: Imago.Matrix
+  transaction_module: Imago.Matrix,
+  room_module: Imago.Matrix
 
 config :imago, Imago.Commanded,
   event_store: [
@@ -37,6 +38,16 @@ config :imago, Imago.Commanded,
   registry: :local
 
 config :imago, event_stores: [Imago.EventStore]
+
+# config :rdf,
+#   default_prefixes: %{
+#     wd: "http://www.wikidata.org/entity/",
+#     wdt: "http://www.wikidata.org/prop/direct/",
+#     img: Imago.NS.Group,
+#     imgt: Imago.NS.Property,
+#     imgu: Imago.NS.User,
+#     imgc: Imago.NS.Chat
+#   }
 
 # gremlin_uri = URI.parse(System.get_env("GREMLIN_URL") || "")
 # config :gremlex,

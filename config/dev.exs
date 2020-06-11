@@ -83,6 +83,12 @@ config :imago, ImagoWeb.Endpoint,
     ]
   ]
 
+# config :imago, :rdf,
+#   root_iri: "http://imago.local"
+
+config :imago, Imago.Graph,
+  endpoint: "http://wdqs.imago.local:9999/bigdata/namespace/wdq/sparql/wdq/sparql"
+
 config :matrix_app_service,
   path: "/matrix",
   base_url: "http://matrix.imago.local:8008",
