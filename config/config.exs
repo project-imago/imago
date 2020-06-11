@@ -26,8 +26,8 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :matrix_app_service,
-  transaction_module: Imago.Matrix,
-  room_module: Imago.Matrix
+  transaction_module: Imago.Matrix.Transaction,
+  room_module: Imago.Matrix.Room
 
 config :imago, Imago.Commanded,
   event_store: [
