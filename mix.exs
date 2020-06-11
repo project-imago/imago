@@ -58,7 +58,7 @@ defmodule Imago.MixProject do
 
       {:polyjuice_client,
         git: "https://gitlab.com/imago-project/polyjuice_client.git",
-        branch: "get_room_state",
+        branch: "create_room",
         override: true},
       # {:polyjuice_client, "~> 0.2.2", path: "./polyjuice_client", override: true},
 
