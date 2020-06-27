@@ -41,14 +41,7 @@ SELECT DISTINCT ?item ?itemLabel ?num ?itemDescription WHERE { # ?type ?typeLabe
 ORDER BY ASC(?num) LIMIT 20
 """
 
-    case SPARQL.Client.query(query,
-                             # "http://blazegraph.imago.local:8080/bigdata/namespace/kb/sparql/kb/sparql",
-                             "http://wdqs.imago.local:9999/bigdata/namespace/wdq/sparql/wdq/sparql",
-                             # "https://query.wikidata.org/sparql",
-                             request_method: :get,
-                             protocol_version: "1.1",
-                             headers: %{"User-Agent" => "Imago/0.0.1 Dev (https://imago.pm/; contact@imago.pm) ImagoLib/0.0.1"}
-         ) do
+    case Imago.Graph.query(query) do
       {:ok, %{results: results}} ->
         # Logger.debug(results)
         results =
