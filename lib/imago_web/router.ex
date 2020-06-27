@@ -15,7 +15,7 @@ defmodule ImagoWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ImagoWeb do
+  scope "/api", ImagoWeb do
     pipe_through :api
 
     get "/obj/search", GroupController, :search
