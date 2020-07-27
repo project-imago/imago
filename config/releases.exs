@@ -56,8 +56,8 @@ matrix_hs_token =
 
 config :matrix_app_service,
   path: "/api/matrix",
-  base_url: matrix_url
-  access_token: matrix_as_token
+  base_url: matrix_url,
+  access_token: matrix_as_token,
   homeserver_token: matrix_hs_token
 
 # ## Using releases (Elixir v1.9+)
