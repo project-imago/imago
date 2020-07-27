@@ -4,6 +4,7 @@
 stages:
   - docker_build
   - docker_tag
+  - deploy
 
 # ========== DOCKER BUILD
 
@@ -131,3 +132,14 @@ Tag tagged prod image:
     - docker pull $IMAGE_TAG
     - docker tag $IMAGE_TAG $IMAGE_NEW_TAG
     - docker push $IMAGE_NEW_TAG
+
+# ========== DEPLOY
+
+Deploy to staging:
+  stage: deploy
+  needs: ["Tag latest prod image"]
+  only:
+  - master
+  trigger:
+    project: imago-project/imago_deploy
+    branch: master
