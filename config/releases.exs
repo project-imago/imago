@@ -2,7 +2,7 @@
 # from environment variables. You can also hardcode secrets,
 # although such is generally not recommended and you have to
 # remember to add this file to your .gitignore.
-import Mix.Config
+import Config
 
 database_url =
   System.get_env("DATABASE_URL") ||
@@ -55,7 +55,6 @@ matrix_hs_token =
     """
 
 config :matrix_app_service,
-  path: "/api/matrix",
   base_url: matrix_url,
   access_token: matrix_as_token,
   homeserver_token: matrix_hs_token

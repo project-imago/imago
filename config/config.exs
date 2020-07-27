@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 
 config :imago,
   ecto_repos: [Imago.Repo]
@@ -38,6 +38,9 @@ config :imago, Imago.Commanded,
   registry: :local
 
 config :imago, event_stores: [Imago.EventStore]
+
+config :matrix_app_service,
+  path: "/api/matrix"
 
 # config :rdf,
 #   default_prefixes: %{
