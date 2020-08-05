@@ -42,7 +42,51 @@ defmodule Imago.Graph do
     |> query()
   end
 
-  def get_remote_from_wikidata(wd_id) do
+  def wikidata_query_relations(wd_id) do
+    IO.puts("rel")
+    """
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wikibase: <http://wikiba.se/ontology#>
+    PREFIX mwapi: <https://www.mediawiki.org/ontology#API/>
+    PREFIX schema: <http://schema.org/>
+
+    SELECT ?prop ?obj
+    WHERE {
+      SERVICE <https://query.wikidata.org/sparql> {
+        ?item ?p ?obj .
+        ?prop wikibase:directClaim ?p .
+        FILTER ( ?p in ( wdt:P30, wdt:P279, wdt:P131, wdt:P150, wdt:P361, wdt:P527) )
+      }
+      BIND (wd:#{wd_id} AS ?item)
+    }
+    """
+    |> query()
+  end
+
+  def wikidata_query_labels_and_descriptions(wd_iri) do
+    IO.puts("ldesc")
+    """
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wikibase: <http://wikiba.se/ontology#>
+    PREFIX mwapi: <https://www.mediawiki.org/ontology#API/>
+    PREFIX schema: <http://schema.org/>
+
+    SELECT (lang(?label) AS ?lang) ?label ?description
+    WHERE {
+      SERVICE <https://query.wikidata.org/sparql> {
+        ?item rdfs:label ?label;
+              schema:description ?description.
+        FILTER(LANG(?label) = LANG(?description)).
+      }
+      BIND (<#{wd_iri}> AS ?item)
+    }
+    """
+    |> query()
+  end
+
+  def get_remote_from_wikidata_old(wd_id) do
     case wikidata_query(wd_id) do
       {:error, _} ->
         :error
@@ -57,6 +101,61 @@ defmodule Imago.Graph do
             object: %{iri: RDF.IRI.to_string(result["obj"]), label: RDF.Literal.lexical(result["objLabel"])} }
         end)
         %{label: label, description: description, statements: statements}
+    end
+  end
+
+  def get_remote_from_wikidata(wd_id) do
+    Logger.info("getting thing")
+    wd_iri = "http://www.wikidata.org/entity/#{wd_id}"
+    with {:ok, %SPARQL.Query.Result{results: subject_labels_and_descriptions}} <-
+      wikidata_query_labels_and_descriptions(wd_iri),
+         subject_event <-
+           %{
+             type: "pm.imago.object",
+             state_key: "",
+             content: %{
+               label: Enum.map(subject_labels_and_descriptions, &({RDF.Literal.lexical(&1["lang"]), RDF.Literal.lexical(&1["label"])})) |> Enum.into(%{}),
+               description: Enum.map(subject_labels_and_descriptions, &({RDF.Literal.lexical(&1["lang"]), RDF.Literal.lexical(&1["description"])})) |> Enum.into(%{})
+             }
+           },
+         {:ok, %SPARQL.Query.Result{results: relations}} <-
+           wikidata_query_relations(wd_id),
+         relation_event <-
+           %{
+             type: "pm.imago.statements",
+             state_key: "",
+             content: Enum.reduce(relations, %{}, fn r, acc ->
+               with %{"prop" => p, "obj" => obj} <- r do
+                 p = RDF.IRI.to_string(p)
+                 obj = RDF.IRI.to_string(obj)
+                 Map.update(acc, p, [obj], &([obj | &1]))
+               end
+             end)
+           },
+         objects = Enum.flat_map(relations, &Map.values/1) |> Enum.uniq,
+         objects_events <-
+           Enum.map(objects, fn o ->
+             with {:ok, %SPARQL.Query.Result{results: obj_labels_and_descriptions}} <-
+                 wikidata_query_labels_and_descriptions(RDF.IRI.to_string(o)) do
+                    %{
+                     type: "pm.imago.object",
+                     state_key: RDF.IRI.to_string(o),
+                     content: %{
+                       label: Enum.map(obj_labels_and_descriptions, &({RDF.Literal.lexical(&1["lang"]), RDF.Literal.lexical(&1["label"])})) |> Enum.into(%{}),
+                       description: Enum.map(obj_labels_and_descriptions, &({RDF.Literal.lexical(&1["lang"]), RDF.Literal.lexical(&1["description"])})) |> Enum.into(%{})
+                       }
+                    }
+               end
+           end)
+    do
+      %{name: subject_event.content.label["en"],
+        topic: subject_event.content.description["en"],
+        state: List.flatten([subject_event, objects_events, relation_event])
+      }
+    else
+      error ->
+        Logger.info(inspect(error))
+        :error
     end
   end
 
