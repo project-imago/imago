@@ -106,7 +106,7 @@ defmodule Imago.Group do
           bd:serviceParam wikibase:api "EntitySearch" .
           bd:serviceParam wikibase:endpoint "www.wikidata.org" .
           bd:serviceParam mwapi:search "#{term}" .
-          bd:serviceParam mwapi:language "en" .
+          bd:serviceParam mwapi:language "#{lc}" .
           ?item wikibase:apiOutputItem mwapi:item .
           ?num wikibase:apiOrdinal true .
           #SERVICE wikibase:label { bd:serviceParam wikibase:language "fr". }
@@ -116,7 +116,7 @@ defmodule Imago.Group do
         ?item wdt:P31 [wdt:P279* wd:Q15642541].
         #?item schema:description ?itemDescription. # some desc are in en
         #SERVICE wikibase:label { bd:serviceParam wikibase:language "fr". }
-        SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en".
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "#{lc},en".
           ?item rdfs:label ?itemLabel.
           ?item schema:description ?itemDescription. # some desc are in en
         }
