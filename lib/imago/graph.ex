@@ -120,18 +120,17 @@ defmodule Imago.Graph do
            },
          {:ok, %SPARQL.Query.Result{results: relations}} <-
            wikidata_query_relations(wd_id),
-         relation_event <-
-           %{
-             type: "pm.imago.statements",
-             state_key: "",
-             content: Enum.reduce(relations, %{}, fn r, acc ->
-               with %{"prop" => p, "obj" => obj} <- r do
-                 p = RDF.IRI.to_string(p)
-                 obj = RDF.IRI.to_string(obj)
-                 Map.update(acc, p, [obj], &([obj | &1]))
-               end
-             end)
-           },
+         relation_events <-
+           Enum.map(relations, fn r ->
+             %{
+               type: "pm.imago.statements",
+               state_key: RDF.IRI.to_string(r["obj"]),
+               content: %{
+                 property: RDF.IRI.to_string(r["prop"]),
+                 value: RDF.IRI.to_string(r["obj"])
+               }
+             }
+           end),
          objects = Enum.flat_map(relations, &Map.values/1) |> Enum.uniq,
          objects_events <-
            Enum.map(objects, fn o ->
@@ -150,7 +149,7 @@ defmodule Imago.Graph do
     do
       %{name: subject_event.content.label["en"],
         topic: subject_event.content.description["en"],
-        state: List.flatten([subject_event, objects_events, relation_event])
+        state: List.flatten([subject_event, objects_events, relation_events])
       }
     else
       error ->

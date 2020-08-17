@@ -2,60 +2,10 @@ defmodule ImagoWeb.GroupController do
   use ImagoWeb, :controller
   require Logger
 
-  def search(conn, %{"property" => property, "term" => term}) do
-    query =
-"""
-PREFIX wd: <http://www.wikidata.org/entity/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-PREFIX wikibase: <http://wikiba.se/ontology#>
-PREFIX mwapi: <https://www.mediawiki.org/ontology#API/>
-PREFIX schema: <http://schema.org/>
-
-SELECT DISTINCT ?item ?itemLabel ?num ?itemDescription WHERE { # ?type ?typeLabel
-  SERVICE wikibase:mwapi {
-      bd:serviceParam wikibase:api "EntitySearch" .
-      bd:serviceParam wikibase:endpoint "www.wikidata.org" .
-      bd:serviceParam mwapi:search "#{term}" .
-      bd:serviceParam mwapi:language "en" .
-      ?item wikibase:apiOutputItem mwapi:item .
-      ?num wikibase:apiOrdinal true .
-      #SERVICE wikibase:label { bd:serviceParam wikibase:language "fr". }
-  }
-  SERVICE <https://query.wikidata.org/sparql> {
-    # ?item wdt:P31 ?type. #this creates doubles
-    ?item wdt:P31 [wdt:P279* wd:Q15642541].
-    #?item schema:description ?itemDescription. # some desc are in en
-    #SERVICE wikibase:label { bd:serviceParam wikibase:language "fr". }
-    SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en".
-      ?item rdfs:label ?itemLabel.
-      ?item schema:description ?itemDescription. # some desc are in en
-    }
-  }
-  MINUS {?item wdt:P31 wd:Q4167410}
-  #FILTER (lang(?itemDescription) = "fr") # some desc are in en
-  #SERVICE wikibase:label { bd:serviceParam wikibase:language "fr".
-  #  ?item rdfs:label ?itemLabel.
-  #}
-}
-#GROUP BY ?item
-ORDER BY ASC(?num) LIMIT 20
-"""
-
-    case Imago.Graph.query(query) do
-      {:ok, %{results: results}} ->
-        # Logger.debug(results)
-        results =
-          results
-          |> Enum.map(fn %{"item" => item, "itemLabel" => label, "itemDescription" => description} ->
-            %{
-              item: RDF.IRI.to_string(item),
-              label: RDF.Literal.lexical(label),
-              description: RDF.Literal.lexical(description)
-            }
-          end)
+  def search(conn, %{"property" => property, "term" => term, "lc" => lc}) do
+    case Imago.Group.search(property, term, lc) do
+      {:ok, results} ->
         json(conn, %{term: term, results: results})
-      {:error, %{body: body}} ->
-        json(conn, %{error: body})
       {:error, error} ->
         json(conn, %{error: error})
     end
