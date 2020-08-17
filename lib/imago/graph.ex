@@ -123,7 +123,7 @@ defmodule Imago.Graph do
          relation_events <-
            Enum.map(relations, fn r ->
              %{
-               type: "pm.imago.statements",
+               type: "pm.imago.statement",
                state_key: RDF.IRI.to_string(r["obj"]),
                content: %{
                  property: RDF.IRI.to_string(r["prop"]),
